@@ -1,0 +1,24 @@
+
+recipe1:
+  #物品显示
+  id: DIAMOND_SWORD
+  data: 0
+  #名字
+  display: '烤鸡腿'
+  #lore描述
+  lore:
+    - '111'
+    - '222'
+  #材料 对接MM物品库(若不存在将报错)
+  ingredients:
+    - '烤鸡-4'
+  #烹饪所需最完美时间
+  cookTime: 10
+  #允许的最大误差时间
+  range: 5
+  #烹饪成功物品 对接MM物品库(若不存在将报错)
+  success: '成功-4'
+  #烹饪失败物品 对接MM物品库(若不存在将报错)
+  fail: '失败-4'
+
+

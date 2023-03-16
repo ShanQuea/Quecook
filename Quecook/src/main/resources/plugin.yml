@@ -1,0 +1,4 @@
+commands:
+  Qgui:
+    description: 这是一个命令
+    usage: /Qgui
