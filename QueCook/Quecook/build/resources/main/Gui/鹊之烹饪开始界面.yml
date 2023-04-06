@@ -1,0 +1,649 @@
+match: ".*烹饪界面.*"
+
+# 禁止ESC直接关闭界面，采用Functions的按键监听来关闭界面
+allowEscClose: false
+
+Functions:
+  keyPress: "(方法.取当前按下键=='E' || 方法.取当前按下键=='ESCAPE')?{方法.异步执行方法('关闭界面');}:0"
+  open: "方法.异步执行方法('每秒重新计算绘制起始点和更新变量')"
+  wheel: "滚动条_texture.distanceY=滚动条_texture.distanceY-滚动条_texture.maxDistanceY*0.03*方法.取滚轮值"
+
+  关闭界面: |-
+    界面变量.关闭时间=方法.取当前时间;
+    方法.延时(100);
+    方法.关闭界面;
+
+  每秒重新计算绘制起始点和更新变量: |-
+    界面变量.x=(方法.取屏幕宽度-方法.取组件值('背包背景_texture','width'))/2;
+    界面变量.y=(方法.取屏幕高度-方法.取组件值('背包背景_texture','height'))/2;
+    方法.延时(1000);
+    方法.异步执行方法('每秒重新计算绘制起始点和更新变量');
+
+
+
+
+##分割--------------------
+背包背景_texture:
+  x: "界面变量.x-5"
+  y: "界面变量.y-16.5"
+  alpha: "方法.取界面存活时间/700"
+  width: "290*(方法.取屏幕宽度/510)"
+  height: "133*(方法.取屏幕宽度/510)"
+  visible: true
+  texture: "scoreboard/dz.png"
+  actions:
+    # 每帧绘制背景之前先判断一下当前是否已按下ESC关闭界面(Functions里的keyPress)，是的话就对x增加一定值，做成关闭界面时的动画
+    preRender: "(界面变量.关闭时间>0) ? {界面变量.x = 界面变量.x+方法.取当前时间-界面变量.关闭时间;}:0;"
+
+展示栏1_slot:
+  x: "界面变量.x+12*(方法.取屏幕宽度/490)"
+  y: "界面变量.y+16.4*(方法.取屏幕宽度/510)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_0"
+  enable: false
+  drawBackground: false
+  alpha: "方法.取界面存活时间/700"
+  visible: true
+展示栏2_slot:
+  x: "界面变量.x+30*(方法.取屏幕宽度/490)"
+  y: "界面变量.y+16.4*(方法.取屏幕宽度/510)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_1"
+  alpha: "方法.取界面存活时间/700"
+  enable: false
+  drawBackground: false
+  visible: true
+展示栏3_slot:
+  x: "界面变量.x+48*(方法.取屏幕宽度/490)"
+  y: "界面变量.y+16.4*(方法.取屏幕宽度/510)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_2"
+  alpha: "方法.取界面存活时间/700"
+  enable: false
+  drawBackground: false
+  visible: true
+展示栏4_slot:
+  x: "界面变量.x+65*(方法.取屏幕宽度/490)"
+  y: "界面变量.y+16.4*(方法.取屏幕宽度/510)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_3"
+  alpha: "方法.取界面存活时间/700"
+  enable: false
+  drawBackground: false
+  visible: true
+展示栏5_slot:
+  x: "界面变量.x+82*(方法.取屏幕宽度/490)"
+  y: "界面变量.y+16.4*(方法.取屏幕宽度/510)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_4"
+  alpha: "方法.取界面存活时间/700"
+  enable: false
+  drawBackground: false
+  visible: true
+展示栏6_slot:
+  x: "界面变量.x+100*(方法.取屏幕宽度/490)"
+  y: "界面变量.y+16.4*(方法.取屏幕宽度/510)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_5"
+  alpha: "方法.取界面存活时间/700"
+  enable: false
+  drawBackground: false
+  visible: true
+展示栏7_slot:
+  x: "界面变量.x+118*(方法.取屏幕宽度/490)"
+  y: "界面变量.y+16.4*(方法.取屏幕宽度/510)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_6"
+  alpha: "方法.取界面存活时间/700"
+  enable: false
+  drawBackground: false
+  visible: true
+展示栏8_slot:
+  x: "界面变量.x+136*(方法.取屏幕宽度/490)"
+  y: "界面变量.y+16.4*(方法.取屏幕宽度/510)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_7"
+  alpha: "方法.取界面存活时间/700"
+  enable: false
+  drawBackground: false
+  visible: true
+展示栏9_slot:
+  x: "界面变量.x+152*(方法.取屏幕宽度/490)"
+  y: "界面变量.y+16.4*(方法.取屏幕宽度/510)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_8"
+  alpha: "方法.取界面存活时间/700"
+  enable: false
+  drawBackground: false
+  visible: true
+展示栏10_slot:
+  x: "界面变量.x+171*(方法.取屏幕宽度/490)"
+  y: "界面变量.y+16.4*(方法.取屏幕宽度/510)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_9"
+  alpha: "方法.取界面存活时间/700"
+  enable: false
+  drawBackground: false
+  visible: true
+展示栏11_slot:
+  x: "界面变量.x+188*(方法.取屏幕宽度/490)"
+  y: "界面变量.y+16.4*(方法.取屏幕宽度/510)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_10"
+  alpha: "方法.取界面存活时间/700"
+  enable: false
+  drawBackground: false
+  visible: true
+展示栏12_slot:
+  x: "界面变量.x+205*(方法.取屏幕宽度/490)"
+  y: "界面变量.y+16.4*(方法.取屏幕宽度/510)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_11"
+  alpha: "方法.取界面存活时间/700"
+  enable: false
+  drawBackground: false
+  visible: true
+展示栏13_slot:
+  x: "界面变量.x+223.6*(方法.取屏幕宽度/490)"
+  y: "界面变量.y+16.4*(方法.取屏幕宽度/510)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_12"
+  alpha: "方法.取界面存活时间/700"
+  enable: false
+  drawBackground: false
+  visible: true
+
+#成品展示
+展示栏15_slot:
+  x: "界面变量.x+247.2*(方法.取屏幕宽度/490)"
+  y: "界面变量.y+16.4*(方法.取屏幕宽度/510)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_46"
+  alpha: "方法.取界面存活时间/700"
+  enable: false
+  drawBackground: false
+  visible: true
+
+经验_label:
+  x: "界面变量.x+22*(方法.取屏幕宽度/510)"
+  y: "界面变量.y+40.5*(方法.取屏幕宽度/510)"
+  alpha: 方法.取界面存活时间/700
+  texts: "方法.取物品名(方法.取物品('container_1'))"
+  scale: "方法.取屏幕宽度/800"
+  visible: true
+金币_label:
+  x: "界面变量.x+59*(方法.取屏幕宽度/510)"
+  y: "界面变量.y+40.5*(方法.取屏幕宽度/510)"
+  alpha: 方法.取界面存活时间/700
+  texts: "方法.取物品名(方法.取物品('container_2'))"
+  scale: "方法.取屏幕宽度/800"
+  visible: true
+
+
+
+按钮_texture:
+  x: "界面变量.x+53*(方法.取屏幕宽度/515)"
+  y: "界面变量.y+103*(方法.取屏幕宽度/510)"
+  width: "21*(方法.取屏幕宽度/510)"
+  height: "12*(方法.取屏幕宽度/510)"
+  texture: "scoreboard/button.png"
+  actions:
+    click_left: 方法.模拟点击槽位('container_47',0,'PICKUP',1)
+
+烹饪_label:
+  x: "界面变量.x+57*(方法.取屏幕宽度/515)"
+  y: "界面变量.y+106*(方法.取屏幕宽度/510)"
+  alpha: 方法.取界面存活时间/700
+  texts: "&e&l开始"
+  scale: "方法.取屏幕宽度/700"
+  drawBackground: false
+  actions:
+    click_left: 方法.模拟点击槽位('container_47',0,'PICKUP',1)
+按钮2_texture:
+  x: "界面变量.x+75*(方法.取屏幕宽度/515)"
+  y: "界面变量.y+103*(方法.取屏幕宽度/510)"
+  width: "21*(方法.取屏幕宽度/510)"
+  height: "12*(方法.取屏幕宽度/510)"
+  texture: "scoreboard/button.png"
+  actions:
+    click_left: 方法.模拟点击槽位('container_48',0,'PICKUP',1)
+
+烹饪2_label:
+  x: "界面变量.x+80*(方法.取屏幕宽度/515)"
+  y: "界面变量.y+106*(方法.取屏幕宽度/510)"
+  alpha: 方法.取界面存活时间/700
+  texts: "&e&l结束"
+  scale: "方法.取屏幕宽度/700"
+  drawBackground: false
+  actions:
+    click_left: 方法.模拟点击槽位('container_48',0,'PICKUP',1)
+
+
+放置栏1_slot:
+  x: "界面变量.x+16*(方法.取屏幕宽度/510)"
+  y: "界面变量.y+54*(方法.取屏幕宽度/510)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_20"
+  visible: true
+  alpha: "方法.取界面存活时间/700"
+放置栏2_slot:
+  x: "界面变量.x+37.6*(方法.取屏幕宽度/510)"
+  y: "界面变量.y+54*(方法.取屏幕宽度/510)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_21"
+  visible: true
+  alpha: "方法.取界面存活时间/700"
+放置栏3_slot:
+  x: "界面变量.x+58.2*(方法.取屏幕宽度/510)"
+  y: "界面变量.y+54*(方法.取屏幕宽度/510)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_22"
+  visible: true
+  alpha: "方法.取界面存活时间/700"
+放置栏4_slot:
+  x: "界面变量.x+78.5*(方法.取屏幕宽度/510)"
+  y: "界面变量.y+54*(方法.取屏幕宽度/510)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  visible: true
+  identifier: "container_23"
+  alpha: "方法.取界面存活时间/700"
+
+放置栏5_slot:
+  x: "界面变量.x+16*(方法.取屏幕宽度/510)"
+  y: "界面变量.y+70*(方法.取屏幕宽度/510)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_24"
+  alpha: "方法.取界面存活时间/700"
+  visible: true
+放置栏6_slot:
+  x: "界面变量.x+37.6*(方法.取屏幕宽度/510)"
+  y: "界面变量.y+70*(方法.取屏幕宽度/510)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_25"
+  visible: true
+  alpha: "方法.取界面存活时间/700"
+放置栏7_slot:
+  x: "界面变量.x+58.2*(方法.取屏幕宽度/510)"
+  y: "界面变量.y+70*(方法.取屏幕宽度/510)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_26"
+  visible: true
+  alpha: "方法.取界面存活时间/700"
+放置栏8_slot:
+  x: "界面变量.x+78.5*(方法.取屏幕宽度/510)"
+  y: "界面变量.y+70*(方法.取屏幕宽度/510)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  visible: true
+  identifier: "container_27"
+  alpha: "方法.取界面存活时间/700"
+放置栏9_slot:
+  x: "界面变量.x+16*(方法.取屏幕宽度/510)"
+  y: "界面变量.y+85*(方法.取屏幕宽度/510)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  visible: true
+  identifier: "container_28"
+  alpha: "方法.取界面存活时间/700"
+放置栏10_slot:
+  x: "界面变量.x+37.6*(方法.取屏幕宽度/510)"
+  y: "界面变量.y+85*(方法.取屏幕宽度/510)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  visible: true
+  identifier: "container_29"
+  alpha: "方法.取界面存活时间/700"
+放置栏11_slot:
+  x: "界面变量.x+58.2*(方法.取屏幕宽度/510)"
+  y: "界面变量.y+85*(方法.取屏幕宽度/510)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_30"
+  visible: true
+  alpha: "方法.取界面存活时间/700"
+放置栏12_slot:
+  x: "界面变量.x+78.5*(方法.取屏幕宽度/510)"
+  y: "界面变量.y+85*(方法.取屏幕宽度/510)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_31"
+  alpha: "方法.取界面存活时间/700"
+  visible: true
+放置栏13_slot:
+  x: "界面变量.x+16*(方法.取屏幕宽度/510)"
+  y: "界面变量.y+102*(方法.取屏幕宽度/510)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  visible: true
+  identifier: "container_32"
+  alpha: "方法.取界面存活时间/700"
+放置栏14_slot:
+  x: "界面变量.x+37.6*(方法.取屏幕宽度/510)"
+  y: "界面变量.y+102*(方法.取屏幕宽度/510)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  visible: true
+  identifier: "container_33"
+  alpha: "方法.取界面存活时间/700"
+
+
+
+
+
+
+
+
+
+# 背包36个格子（第一行）
+背包格子1-1_slot:
+  x: "界面变量.x+107.5*(方法.取屏幕宽度/495)"
+  y: "界面变量.y+43.5*(方法.取屏幕宽度/500)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_54"
+  alpha: "方法.取界面存活时间/700"
+  visible: true
+背包格子1-2_slot:
+  x: "界面变量.x+125.6*(方法.取屏幕宽度/495)"
+  y: "界面变量.y+43.5*(方法.取屏幕宽度/500)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_55"
+  alpha: "方法.取界面存活时间/700"
+  visible: true
+背包格子1-3_slot:
+  x: "界面变量.x+143.5*(方法.取屏幕宽度/495)"
+  y: "界面变量.y+43.5*(方法.取屏幕宽度/500)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_56"
+  alpha: "方法.取界面存活时间/700"
+  visible: true
+背包格子1-4_slot:
+  x: "界面变量.x+160.5*(方法.取屏幕宽度/495)"
+  y: "界面变量.y+43.5*(方法.取屏幕宽度/500)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_57"
+  alpha: "方法.取界面存活时间/700"
+  visible: true
+背包格子1-5_slot:
+  x: "界面变量.x+178*(方法.取屏幕宽度/495)"
+  y: "界面变量.y+43.5*(方法.取屏幕宽度/500)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_58"
+  alpha: "方法.取界面存活时间/700"
+  visible: true
+背包格子1-6_slot:
+  x: "界面变量.x+195.5*(方法.取屏幕宽度/495)"
+  y: "界面变量.y+43.5*(方法.取屏幕宽度/500)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_59"
+  alpha: "方法.取界面存活时间/700"
+  visible: true
+背包格子1-7_slot:
+  x: "界面变量.x+213.5*(方法.取屏幕宽度/495)"
+  y: "界面变量.y+43.5*(方法.取屏幕宽度/500)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_60"
+  alpha: "方法.取界面存活时间/700"
+  visible: true
+背包格子1-8_slot:
+  x: "界面变量.x+231*(方法.取屏幕宽度/495)"
+  y: "界面变量.y+43.5*(方法.取屏幕宽度/500)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_61"
+  alpha: "方法.取界面存活时间/700"
+  visible: true
+背包格子1-9_slot:
+  x: "界面变量.x+248.5*(方法.取屏幕宽度/495)"
+  y: "界面变量.y+43.5*(方法.取屏幕宽度/500)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_62"
+  alpha: "方法.取界面存活时间/700"
+  visible: true
+#第二排
+背包格子2-1_slot:
+  x: "界面变量.x+107.5*(方法.取屏幕宽度/495)"
+  y: "界面变量.y+59.5*(方法.取屏幕宽度/500)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_63"
+  alpha: "方法.取界面存活时间/700"
+  visible: true
+背包格子2-2_slot:
+  x: "界面变量.x+125.6*(方法.取屏幕宽度/495)"
+  y: "界面变量.y+59.5*(方法.取屏幕宽度/500)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_64"
+  alpha: "方法.取界面存活时间/700"
+  visible: true
+背包格子2-3_slot:
+  x: "界面变量.x+143.5*(方法.取屏幕宽度/495)"
+  y: "界面变量.y+59.5*(方法.取屏幕宽度/500)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_65"
+  alpha: "方法.取界面存活时间/700"
+  visible: true
+背包格子2-4_slot:
+  x: "界面变量.x+160.5*(方法.取屏幕宽度/495)"
+  y: "界面变量.y+59.5*(方法.取屏幕宽度/500)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_66"
+  alpha: "方法.取界面存活时间/700"
+  visible: true
+背包格子2-5_slot:
+  x: "界面变量.x+178*(方法.取屏幕宽度/495)"
+  y: "界面变量.y+59.5*(方法.取屏幕宽度/500)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_67"
+  alpha: "方法.取界面存活时间/700"
+  visible: true
+背包格子2-6_slot:
+  x: "界面变量.x+195.5*(方法.取屏幕宽度/495)"
+  y: "界面变量.y+59.5*(方法.取屏幕宽度/500)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_68"
+  alpha: "方法.取界面存活时间/700"
+  visible: true
+背包格子2-7_slot:
+  x: "界面变量.x+213.5*(方法.取屏幕宽度/495)"
+  y: "界面变量.y+59.5*(方法.取屏幕宽度/500)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_69"
+  alpha: "方法.取界面存活时间/700"
+  visible: true
+背包格子2-8_slot:
+  x: "界面变量.x+231*(方法.取屏幕宽度/495)"
+  y: "界面变量.y+59.5*(方法.取屏幕宽度/500)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_70"
+  alpha: "方法.取界面存活时间/700"
+  visible: true
+背包格子2-9_slot:
+  x: "界面变量.x+248.5*(方法.取屏幕宽度/495)"
+  y: "界面变量.y+59.5*(方法.取屏幕宽度/500)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_71"
+  alpha: "方法.取界面存活时间/700"
+  visible: true
+#第三排
+背包格子3-1_slot:
+  x: "界面变量.x+107.5*(方法.取屏幕宽度/495)"
+  y: "界面变量.y+76*(方法.取屏幕宽度/500)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_72"
+  alpha: "方法.取界面存活时间/700"
+  visible: true
+背包格子3-2_slot:
+  x: "界面变量.x+125.6*(方法.取屏幕宽度/495)"
+  y: "界面变量.y+76*(方法.取屏幕宽度/500)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_73"
+  alpha: "方法.取界面存活时间/700"
+  visible: true
+背包格子3-3_slot:
+  x: "界面变量.x+143.5*(方法.取屏幕宽度/495)"
+  y: "界面变量.y+76*(方法.取屏幕宽度/500)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_74"
+  alpha: "方法.取界面存活时间/700"
+  visible: true
+背包格子3-4_slot:
+  x: "界面变量.x+160.5*(方法.取屏幕宽度/495)"
+  y: "界面变量.y+76*(方法.取屏幕宽度/500)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_75"
+  alpha: "方法.取界面存活时间/700"
+  visible: true
+背包格子3-5_slot:
+  x: "界面变量.x+178*(方法.取屏幕宽度/495)"
+  y: "界面变量.y+76*(方法.取屏幕宽度/500)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_76"
+  alpha: "方法.取界面存活时间/700"
+  visible: true
+背包格子3-6_slot:
+  x: "界面变量.x+195.5*(方法.取屏幕宽度/495)"
+  y: "界面变量.y+76*(方法.取屏幕宽度/500)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_77"
+  alpha: "方法.取界面存活时间/700"
+  visible: true
+背包格子3-7_slot:
+  x: "界面变量.x+213.5*(方法.取屏幕宽度/495)"
+  y: "界面变量.y+76*(方法.取屏幕宽度/500)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_78"
+  alpha: "方法.取界面存活时间/700"
+  visible: true
+背包格子3-8_slot:
+  x: "界面变量.x+231*(方法.取屏幕宽度/495)"
+  y: "界面变量.y+76*(方法.取屏幕宽度/500)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_79"
+  alpha: "方法.取界面存活时间/700"
+  visible: true
+背包格子3-9_slot:
+  x: "界面变量.x+248.5*(方法.取屏幕宽度/495)"
+  y: "界面变量.y+76*(方法.取屏幕宽度/500)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_80"
+  alpha: "方法.取界面存活时间/700"
+  visible: true
+
+背包格子4-1_slot:
+  x: "界面变量.x+107.5*(方法.取屏幕宽度/495)"
+  y: "界面变量.y+99*(方法.取屏幕宽度/500)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_81"
+  alpha: "方法.取界面存活时间/700"
+  visible: true
+背包格子4-2_slot:
+  x: "界面变量.x+125.6*(方法.取屏幕宽度/495)"
+  y: "界面变量.y+99*(方法.取屏幕宽度/500)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_82"
+  alpha: "方法.取界面存活时间/700"
+  visible: true
+背包格子4-3_slot:
+  x: "界面变量.x+143.5*(方法.取屏幕宽度/495)"
+  y: "界面变量.y+99*(方法.取屏幕宽度/500)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_83"
+  alpha: "方法.取界面存活时间/700"
+  visible: true
+背包格子4-4_slot:
+  x: "界面变量.x+160.5*(方法.取屏幕宽度/495)"
+  y: "界面变量.y+99*(方法.取屏幕宽度/500)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_84"
+  alpha: "方法.取界面存活时间/700"
+  visible: true
+背包格子4-5_slot:
+  x: "界面变量.x+178*(方法.取屏幕宽度/495)"
+  y: "界面变量.y+99*(方法.取屏幕宽度/500)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_85"
+  alpha: "方法.取界面存活时间/700"
+  visible: true
+背包格子4-6_slot:
+  x: "界面变量.x+195.5*(方法.取屏幕宽度/495)"
+  y: "界面变量.y+99*(方法.取屏幕宽度/500)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_86"
+  alpha: "方法.取界面存活时间/700"
+  visible: true
+背包格子4-7_slot:
+  x: "界面变量.x+213.5*(方法.取屏幕宽度/495)"
+  y: "界面变量.y+99*(方法.取屏幕宽度/500)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_87"
+  alpha: "方法.取界面存活时间/700"
+  visible: true
+背包格子4-8_slot:
+  x: "界面变量.x+231*(方法.取屏幕宽度/495)"
+  y: "界面变量.y+99*(方法.取屏幕宽度/500)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_88"
+  alpha: "方法.取界面存活时间/700"
+  visible: true
+背包格子4-9_slot:
+  x: "界面变量.x+248.5*(方法.取屏幕宽度/495)"
+  y: "界面变量.y+99*(方法.取屏幕宽度/500)"
+  width: "12*(方法.取屏幕宽度/499)"
+  height: "11.7*(方法.取屏幕宽度/499)"
+  identifier: "container_89"
+  alpha: "方法.取界面存活时间/700"
+  visible: true
