@@ -31,14 +31,14 @@ public class fireManager implements Listener {
 
         String potName = event.getCurrentItem().getItemMeta().getDisplayName();
         if (!potName.contains("锅")){
-            return false;
+            return true;
         }
         String pot2 = potName.replaceAll("[^\u4e00-\u9fa5]", "");
         if (potName.contains("锅")){
             inventory.setItem(48, currentItem);
             ConfigurationSection potKey = RecipeManager.getPotConfig().getConfigurationSection(pot2);
             if(potKey != null){
-                List<?> fireList = potKey.getList("lore");
+                List<?> fireList = potKey.getList("fire");
 
             }
         }

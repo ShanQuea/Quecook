@@ -25,13 +25,16 @@ import org.bukkit.inventory.meta.ItemMeta;
 import pres.shanque.quecook.Quecook;
 import pres.shanque.quecook.recipemanage.RecipeManager;
 
-public class ClickMenuListener
-        implements Listener {
+public class ClickMenuListener implements Listener {
+
     private static final String MENU_TITLE = "鹊之烹饪";
     final Quecook quecook = Quecook.getInstance();
-    File file = new File(this.quecook.getDataFolder(), "recipe.yml");
-    File recipess = new File(Quecook.getPlugin(Quecook.class).getDataFolder(), "recipe.yml");
+
+    File recipess = new File(Quecook.getPlugin(Quecook.class).getDataFolder(),"recipe.yml");
+
     FileConfiguration recipes = YamlConfiguration.loadConfiguration(this.recipess);
+
+
 
     @EventHandler
     public void onClick(InventoryClickEvent event) {
@@ -46,13 +49,17 @@ public class ClickMenuListener
         net.minecraft.server.v1_12_R1.ItemStack itemNMS = CraftItemStack.asNMSCopy(currentItem);
         assert (itemNMS.getTag() != null);
         String path = itemNMS.getTag().getString("recipe");
-        ConfigurationSection recipeData = this.recipes.getConfigurationSection(path);
+
+
         ConfigurationSection itemsSection = RecipeManager.getRecipeConfig().getConfigurationSection(path);
         int cooktime = itemsSection.getInt("cookTime");
         int range = itemsSection.getInt("range");
         String success = itemsSection.getString("success");
         String fail = itemsSection.getString("fail");
-        if (recipeData != null) {
+
+
+
+        if (itemsSection != null) {
             String guiTitle = itemName + "烹饪界面";
             Inventory recipeGUI = Bukkit.createInventory(null, 54, guiTitle);
             ItemStack startBook = new ItemStack(Material.BOOK);
@@ -61,13 +68,11 @@ public class ClickMenuListener
             ItemMeta potMeat = pot.getItemMeta();
             bookMeta.setDisplayName("开始烹饪");
             startBook.setItemMeta(bookMeta);
-            recipeGUI.setItem(18, startBook);
+            recipeGUI.setItem(47, startBook);
             bookMeta.setDisplayName("结束烹饪");
             startBook.setItemMeta(bookMeta);
-            recipeGUI.setItem(27, startBook);
-            potMeat.setDisplayName("请点击背包中的烹饪锅");
-            pot.setItemMeta(potMeat);
-            recipeGUI.setItem(48, pot);
+            recipeGUI.setItem(48, startBook);
+
             net.minecraft.server.v1_12_R1.ItemStack bookNMS = CraftItemStack.asNMSCopy(startBook);
             NBTTagCompound bookNBT = bookNMS.getTag();
             assert bookNBT != null;
@@ -89,7 +94,7 @@ public class ClickMenuListener
             NewMeta.setLore(lore);
             startBook.setItemMeta(NewMeta);
             recipeGUI.setItem(45, startBook);
-            List<String> ingredients = recipeData.getStringList("ingredients");
+            List<String> ingredients = itemsSection.getStringList("ingredients");
             for (int i = 0; i < ingredients.size(); ++i) {
                 String ingredient = ingredients.get(i);
                 String ingredientName;
@@ -102,19 +107,12 @@ public class ClickMenuListener
                 }
                 if (ingredientName == null) continue;
                 ItemStack MMitem = MythicMobs.inst().getItemManager().getItemStack(ingredientName);
-                int count = this.countItem(player, MMitem);
+
                 MMitem.setAmount(ingredientAmount);
                 recipeGUI.setItem(i, MMitem);
-                if (count == 0) {
-                    ItemStack nullItem = new ItemStack(Material.PAPER);
-                    ItemMeta nullMeta = nullItem.getItemMeta();
-                    nullMeta.setDisplayName("你背包没有" + MMitem.getItemMeta().getDisplayName());
-                    nullItem.setItemMeta(nullMeta);
-                    recipeGUI.setItem(i + 19, nullItem);
-                    continue;
-                }
-                MMitem.setAmount(count);
-                recipeGUI.setItem(i + 19, MMitem);
+
+
+
             }
             player.openInventory(recipeGUI);
         }

@@ -1,5 +1,6 @@
 package pres.shanque.quecook.command;
 
+import com.mysql.jdbc.log.NullLogger;
 import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import net.minecraft.server.v1_12_R1.NBTTagString;
 import org.bukkit.ChatColor;
@@ -10,12 +11,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
+import pres.shanque.quecook.listener.ClickMenuListener;
 import pres.shanque.quecook.recipemanage.RecipeManager;
 
 
@@ -31,6 +34,7 @@ public class CookingRecipe implements CommandExecutor {
 
     private Inventory gui;
 
+    ClickMenuListener clickMenuListener = new ClickMenuListener();
     public CookingRecipe(JavaPlugin plugin) {
         this.plugin = plugin;
     }
@@ -48,18 +52,22 @@ public class CookingRecipe implements CommandExecutor {
     }
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        Player player = (Player)((Object)sender);
+        if (Objects.equals(args[0],null)) {
+            player.sendMessage("请输入正确指令");
+        }
         if (Objects.equals(args[0], "reload")) {
-            Player player = (Player)((Object)sender);
-            loadConfig();
 
-            initGui();
+            this.loadConfig();
+            this.initGui();
             player.sendMessage("重载成功");
             return true;
         }
-        if (Objects.equals(args[0], "open") || sender instanceof Player) {
-            Player player = (Player)((Object)sender);
+        if (Objects.equals(args[0], "open") || sender != null) {
             player.openInventory(this.gui);
             return true;
+        }else {
+            player.sendMessage("请输入正确指令");
         }
         return false;
     }
@@ -67,12 +75,15 @@ public class CookingRecipe implements CommandExecutor {
     public void loadConfig() {
         File configFile = new File(this.plugin.getDataFolder(), "recipe.yml");
         File potFile = new File(this.plugin.getDataFolder(),"pot.yml");
+
         if (!configFile.exists()) {
             this.plugin.saveResource("recipe.yml", false);
         }
         if(!potFile.exists()){
             this.plugin.saveResource("pot.yml",false);
         }
+
+
         RecipeManager.loadPotConfig(potFile);
         this.config = RecipeManager.loadRecipeConfig(configFile);
     }
@@ -113,7 +124,6 @@ public class CookingRecipe implements CommandExecutor {
         nbt.set("recipe", new NBTTagString(path));
         itemNMS.setTag(nbt);
         itemStack = CraftItemStack.asBukkitCopy(itemNMS);
-
 
         ItemMeta meta = itemStack.getItemMeta();
         meta.setDisplayName(displayName);
